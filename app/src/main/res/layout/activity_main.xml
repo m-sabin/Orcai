@@ -5,15 +5,121 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary900"
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:drawableStart="@drawable/ic_logo"
+        android:drawablePadding="8dp"
+        android:text="OrçAí"
+        android:textColor="@color/white"
+        android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_spent_total"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_despesas_total"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:layout_editor_absoluteX="16dp">
+
+        <TextView
+            android:id="@+id/tv_title_spent_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Despesas Totais"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/value_spent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/primary400"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="R$ 324.41" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_title_rv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Categorias de despesas"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/ll_spent_total"
+        app:layout_constraintTop_toBottomOf="@+id/ll_spent_total" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_rv_category"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_category"
+        tools:listitem="@layout/item_category" />
+
+    <TextView
+        android:id="@+id/tv_title_rv_spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Despesas"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_rv_category"
+        app:layout_constraintTop_toBottomOf="@+id/rv_category" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_spent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_rv_spent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_spent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_spent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:background="@color/background"
+            app:layout_constraintStart_toStartOf="@+id/rv_category"
+            app:layout_constraintTop_toBottomOf="@+id/rv_category"
+            tools:listitem="@layout/item_category" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar despesas"
+        android:layout_margin="16dp"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:backgroundTint="@color/primary400"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
