@@ -9,9 +9,14 @@ class SpentViewModel(private val spentDao: SpentDao) : ViewModel() {
     val allSpents: LiveData<List<SpentEntity>> =
         spentDao.getAllSpents()
 
-    fun insert(spent: SpentEntity) {
+    fun insert(amount: Double, category: String, icon: Int) {
         viewModelScope.launch {
-            spentDao.insertSpent(spent)
+            val newSpent = SpentEntity(
+                amount = amount,
+                category = category,
+                icon = icon
+            )
+            spentDao.insertSpent(newSpent)
         }
     }
 

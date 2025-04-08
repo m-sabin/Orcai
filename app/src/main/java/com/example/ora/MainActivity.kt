@@ -1,9 +1,7 @@
 package com.example.ora
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.ora.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,75 +10,80 @@ class MainActivity : AppCompatActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var spentViewModel: SpentViewModel
 
+    private lateinit var categories: CategoryUiData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val categoryAdapter = CategoryListAdapter(categories, onCategoryClick = {})
+        val db = OrcaiDatabase.getDatabase(this)
+        categoryViewModel = CategoryViewModel(db.getCategoryDao())
+        spentViewModel = SpentViewModel(db.getSpentDao())
+
+        setupCategoryList(binding)
+        setupSpentList()
+        insertInitialCategoriesIfEmpty()
+
+//        getCategoryFromDb()
+//        getSpentFromDb()
+
+//        val categoryAdapter = CategoryListAdapter(categories, onCategoryClick = {})
 //        binding.rvCategory.adapter = categoryAdapter
 
-        val spentAdapter = SpentListAdapter(expenses)
-    //        binding.rvSpent.adapter = spentAdapter
+//        val spentAdapter = SpentListAdapter(expenses, onSpentClick = {})
+//        binding.rvSpent.adapter = spentAdapte r
 
-        val db = OrcaiDatabase.getDatabase(this)
-        val categoryDao = db.getCategoryDao()
-        val spentDao = db.getSpentDao()
-
-        categoryViewModel = ViewModelProvider(this, ViewModelFactory(categoryDao)
-        )[CategoryViewModel::class.java]
-
-        spentViewModel = ViewModelProvider(this, ViewModelFactory(spentDao)
-        )[SpentViewModel::class.java]
-
-        categoryViewModel.allCategories.observe(this){ categories ->
-            for (category in categories){
-                Log.d("RoomTest", "Categoria: ${category.name}, Selecionado: ${category.isSelected}")
-            }
-        }
-        categoryViewModel.insert(CategoryEntity("Self", true))
-
-        spentViewModel.allSpents.observe(this){ spents ->
-            for (spent in spents)
-                Log.d("RoomTest", "Despesa: ${spent.category}, Valor: ${spent.amount}")
-        }
-        spentViewModel.insert(SpentEntity(category = "Self", amount = 50.0, icon = R.drawable.ic_beauty))
 
     }
+
+    private fun insertInitialCategoriesIfEmpty() {
+        categoryViewModel.allCategories.observe(this) { categories ->
+            if (categories.isEmpty()) {
+                val initialCategories = listOf(
+                    CategoryUiData("add", R.drawable.ic_add, false)
+                )
+
+                initialCategories.forEach{ categoryUiList ->
+                    categoryViewModel.insert(categoryUiList.name, categoryUiList.icon)
+                }
+            }
+        }
+    }
+
+    private fun setupCategoryList(binding: ActivityMainBinding) {
+        categoryViewModel.allCategories.observe(this) { categories ->
+            val categoryUiList = categories.map {
+                it.toUiData()
+            }
+            val adapter = CategoryListAdapter(categoryUiList) { category ->
+            }
+            binding.rvCategory.adapter = adapter
+        }
+
+    }
+
+    private fun setupSpentList() {
+        spentViewModel.allSpents.observe(this) { expenses ->
+            val spentUiList = expenses.map {
+                it.toUiData()
+            }
+            val adapter = SpentListAdapter(spentUiList) { spent ->
+            }
+            binding.rvSpent.adapter = adapter
+        }
+    }
+
+//    private fun getCategoryFromDb() {
+//        categories.forEach { category ->
+//            categoryViewModel.insert(category.name, category.icon)
+//        }
+//    }
+
+//    private fun getSpentFromDb() {
+//        expenses.forEach { spent ->
+//            spentViewModel.insert(spent.amount, spent.category, spent.icon)
+//        }
+//    }
 }
 
-val categories = listOf(
-    CategoryUiData(
-        name = "Casa",
-        R.drawable.ic_home,
-        isSelected = false
-    ),
-    CategoryUiData(
-        name = "Beleza",
-        R.drawable.ic_beauty,
-        isSelected = false
-    ),
-    CategoryUiData(
-        name = "Streaming",
-        R.drawable.ic_streaming,
-        isSelected = false
-    )
-)
-
-val expenses = listOf(
-    SpentUiData(
-        amount = 90.87,
-        name = "Home",
-        R.drawable.ic_home
-    ),
-    SpentUiData(
-        amount = 100.89,
-        name = "Beleza",
-        R.drawable.ic_beauty
-    ),
-    SpentUiData(
-        amount = 98.66,
-        name = "Streaming",
-        R.drawable.ic_streaming
-    )
-)

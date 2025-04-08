@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ora.databinding.ItemCategoryBinding
 
-class  CategoryListAdapter (
+class  CategoryListAdapter(
     private val categories: List<CategoryUiData>,
     private val onCategoryClick: (CategoryUiData) -> Unit
 ) : RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>(){
@@ -15,6 +15,7 @@ class  CategoryListAdapter (
 
         fun bind (category: CategoryUiData){
             binding.ivCategorieIcon.setImageResource(category.icon)
+            binding.root.setOnClickListener { onCategoryClick(category) }
         }
 
     }

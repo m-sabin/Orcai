@@ -6,10 +6,16 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "category_spent")
 data class CategoryEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+
     @ColumnInfo(name = "key")
     val name: String,
+
+    @ColumnInfo(name = "icon")
+    val icon: Int,
 
     @ColumnInfo(name = "is_selected")
     val isSelected: Boolean
 )
+

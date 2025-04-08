@@ -3,7 +3,7 @@ package com.example.ora
 import androidx.annotation.DrawableRes
 
 data class SpentUiData(
+    val category: String,
     val amount: Double,
-    val name: String,
     @DrawableRes val icon: Int
 )

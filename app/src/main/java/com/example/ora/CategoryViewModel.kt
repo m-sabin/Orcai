@@ -10,9 +10,10 @@ class CategoryViewModel(private val categoryDao: CategoryDao) : ViewModel() {
     val allCategories: LiveData<List<CategoryEntity>> =
         categoryDao.getAllCategories()
 
-    fun insert(category: CategoryEntity) {
+    fun insert( name: String, icon: Int) {
         viewModelScope.launch {
-           categoryDao.insertCategory(category)
+            val newCategory = CategoryEntity(name = name, icon = icon, isSelected = false)
+           categoryDao.insertCategory(newCategory)
         }
     }
 

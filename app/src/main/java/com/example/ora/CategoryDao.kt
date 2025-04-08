@@ -10,7 +10,7 @@ import androidx.room.Query
 @Dao
 interface CategoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategory(category: CategoryEntity)
 
     @Query("SELECT * FROM category_spent")

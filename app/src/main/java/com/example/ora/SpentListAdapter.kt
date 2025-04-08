@@ -7,6 +7,7 @@ import com.example.ora.databinding.ItemSpentBinding
 
 class SpentListAdapter  (
     private val expenses: List<SpentUiData>,
+    private val onSpentClick: (SpentEntity) -> Unit
 ): RecyclerView.Adapter<SpentListAdapter.SpentViewHolder>(){
 
     inner class SpentViewHolder (private val binding: ItemSpentBinding):
@@ -14,8 +15,9 @@ class SpentListAdapter  (
 
         fun bind(spent: SpentUiData){
             binding.ivSpentIcon.setImageResource(spent.icon)
-            binding.tvCategoryName.text = spent.name
+            binding.tvCategoryName.text = spent.category
             binding.tvSpentValue.text = spent.amount.toString()
+            binding.root.setOnClickListener{onSpentClick}
         }
     }
 
