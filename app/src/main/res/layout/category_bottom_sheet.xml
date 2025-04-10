@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/primary900"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvCreateCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_all"
+        android:text="Criar uma Categoria"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome da categoria"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/primary400"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escolha um ícone"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvIcons"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/tvChooseColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escolha uma cor para a categoria"
+        android:textColor="@color/white"
+        android:layout_marginTop="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvColors"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/btnCreatNewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Criar"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/primary400"
+        android:textSize="18sp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

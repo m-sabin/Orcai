@@ -17,6 +17,7 @@ class SpentListAdapter  (
             binding.ivSpentIcon.setImageResource(spent.icon)
             binding.tvCategoryName.text = spent.category
             binding.tvSpentValue.text = spent.amount.toString()
+            binding.viewColorIndicator.setBackgroundColor(spent.color)
             binding.root.setOnClickListener{onSpentClick}
         }
     }

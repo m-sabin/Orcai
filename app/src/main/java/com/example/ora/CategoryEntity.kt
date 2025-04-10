@@ -15,6 +15,9 @@ data class CategoryEntity(
     @ColumnInfo(name = "icon")
     val icon: Int,
 
+    @ColumnInfo(name = "color")
+    val color: Int,
+
     @ColumnInfo(name = "is_selected")
     val isSelected: Boolean
 )

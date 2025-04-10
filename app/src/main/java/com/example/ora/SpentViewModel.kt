@@ -1,5 +1,6 @@
 package com.example.ora
 
+import android.R
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,8 @@ class SpentViewModel(private val spentDao: SpentDao) : ViewModel() {
             val newSpent = SpentEntity(
                 amount = amount,
                 category = category,
-                icon = icon
+                icon = icon,
+                color = R.color.darker_gray
             )
             spentDao.insertSpent(newSpent)
         }

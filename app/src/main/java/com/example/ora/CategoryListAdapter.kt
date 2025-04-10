@@ -7,15 +7,23 @@ import com.example.ora.databinding.ItemCategoryBinding
 
 class  CategoryListAdapter(
     private val categories: List<CategoryUiData>,
-    private val onCategoryClick: (CategoryUiData) -> Unit
+    private val onCategorySelected: (CategoryUiData) -> Unit,
+    private val onAddCategoryClick: () -> Unit
 ) : RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>(){
 
     inner class CategoryViewHolder (private val binding: ItemCategoryBinding):
     RecyclerView.ViewHolder(binding.root){
 
         fun bind (category: CategoryUiData){
-            binding.ivCategorieIcon.setImageResource(category.icon)
-            binding.root.setOnClickListener { onCategoryClick(category) }
+            binding.ivCategoryIcon.setImageResource(category.icon)
+
+            binding.root.setOnClickListener {
+                if (category.name == "+"){
+                    onAddCategoryClick()
+                } else {
+                    onCategorySelected(category)
+                }
+            }
         }
 
     }

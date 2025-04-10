@@ -15,6 +15,7 @@
         android:background="@drawable/background_bottom"/>
 
     <LinearLayout
+        android:id="@+id/llSpentResume"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -38,5 +39,15 @@
             android:layout_marginTop="-5dp"
             android:textColor="@color/primary400"
             android:textSize="16sp" />
+
+
     </LinearLayout>
+    <View
+        android:id="@+id/viewColorIndicator"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_color_indicator"
+        />
+
 </LinearLayout>

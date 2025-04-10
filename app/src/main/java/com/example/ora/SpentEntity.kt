@@ -16,5 +16,8 @@ data class SpentEntity(
     val amount: Double,
 
     @ColumnInfo(name = "icon")
-    val icon: Int
+    val icon: Int,
+
+    @ColumnInfo(name = "color")
+    val color: Int
 )
