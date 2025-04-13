@@ -11,6 +11,9 @@
             private lateinit var categoryViewModel: CategoryViewModel
             private lateinit var spentViewModel: SpentViewModel
 
+            private val spentList = mutableListOf<SpentUiData>()
+            private lateinit var spentAdapter: SpentListAdapter
+
 
             override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
@@ -22,7 +25,19 @@
                 spentViewModel = SpentViewModel(db.getSpentDao())
 
                 setupCategoryList()
-                setupSpentList()
+
+                spentAdapter = SpentListAdapter(spentList){}
+                binding.rvSpent.layoutManager = LinearLayoutManager(this)
+                binding.rvSpent.adapter = spentAdapter
+
+                binding.btnAddSpent.setOnClickListener {
+                    val bottomSheet = CreateSpentBottomSheet{newspent ->
+                        spentList.add(newspent)
+                        spentAdapter.notifyItemInserted(spentList.size -1)
+                    }
+                    bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+                    setupCategoryList()
+                }
             }
 
             private fun setupCategoryList() {
@@ -48,7 +63,7 @@
 
                         },
                         onAddCategoryClick = {
-                            val bottomSheet = NewCategoryBottomSheet(
+                            val bottomSheet = CreateCategoryBottomSheet(
                                 onCategoryCreated = { name, icon, color ->
                                     val category = CategoryUiData(
                                         name = name,
@@ -73,6 +88,7 @@
                         it.toUiData()
                     }
                     val adapter = SpentListAdapter(spentUiList) { spent ->
+
                     }
                     binding.rvSpent.adapter = adapter
                 }

@@ -9,7 +9,7 @@ import com.example.ora.databinding.CategoryBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-class NewCategoryBottomSheet(
+class CreateCategoryBottomSheet(
     private val  onCategoryCreated: (String, Int, Int) -> Unit
 
 ): BottomSheetDialogFragment(){

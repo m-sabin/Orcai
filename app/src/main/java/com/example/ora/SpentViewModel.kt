@@ -15,8 +15,7 @@ class SpentViewModel(private val spentDao: SpentDao) : ViewModel() {
             val newSpent = SpentEntity(
                 amount = amount,
                 category = category,
-                icon = icon,
-                color = R.color.darker_gray
+                icon = icon
             )
             spentDao.insertSpent(newSpent)
         }

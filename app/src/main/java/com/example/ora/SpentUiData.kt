@@ -7,5 +7,4 @@ data class SpentUiData(
     val category: String,
     val amount: Double,
     @DrawableRes val icon: Int,
-    val color: Int = Color.GRAY
 )
