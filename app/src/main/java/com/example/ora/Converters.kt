@@ -23,6 +23,7 @@ fun SpentUiData.toEntity(): SpentEntity{
         amount = this.amount,
         category = this.category,
         icon = this.icon,
+        color = this.color
         )
 }
 
@@ -31,5 +32,6 @@ fun SpentEntity.toUiData(): SpentUiData{
         amount = this.amount,
         category = this.category,
         icon = this.icon,
+        color = this.color
     )
 }

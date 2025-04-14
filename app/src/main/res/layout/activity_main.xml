@@ -113,7 +113,9 @@
             app:layout_constraintTop_toBottomOf="@+id/rv_category"
             tools:listitem="@layout/item_category" />
 
+
     </LinearLayout>
+
 
     <Button
         android:id="@+id/btnAddSpent"

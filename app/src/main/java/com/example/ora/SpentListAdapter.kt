@@ -1,7 +1,9 @@
 package com.example.ora
 
+import android.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ora.databinding.ItemSpentBinding
 
@@ -17,8 +19,12 @@ class SpentListAdapter  (
             binding.ivSpentIcon.setImageResource(spent.icon)
             binding.tvCategoryName.text = spent.category
             binding.tvSpentValue.text = spent.amount.toString()
+            binding.viewColorIndicator.setBackgroundColor(spent.color)
             binding.root.setOnClickListener{onSpentClick}
+
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpentViewHolder {

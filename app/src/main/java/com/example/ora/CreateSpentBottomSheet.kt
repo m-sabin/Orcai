@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
 class CreateSpentBottomSheet(
+    private val categories: List<CategoryUiData>,
     private val onSpentCreated: (SpentUiData) -> Unit
 ) : BottomSheetDialogFragment() {
 
@@ -33,13 +34,13 @@ class CreateSpentBottomSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val dummyIcons = listOf(
-            CategoryUiData("Casa", R.drawable.ic_home, R.color.cyan, false),
-            CategoryUiData("Transporte", R.drawable.ic_car, R.color.lime, false),
-            CategoryUiData("Mercado", R.drawable.ic_shopping, R.color.lime, false)
-        )
+//        val dummyIcons = listOf(
+//            CategoryUiData("Casa", R.drawable.ic_home, R.color.cyan, false),
+//            CategoryUiData("Transporte", R.drawable.ic_car, R.color.lime, false),
+//            CategoryUiData("Mercado", R.drawable.ic_shopping, R.color.lime, false)
+//        )
 
-        adapter = IconOfSpentAdapter(dummyIcons) { category ->
+        adapter = IconOfSpentAdapter(categories) { category ->
             selectedCategory = category
         }
 
@@ -52,7 +53,7 @@ class CreateSpentBottomSheet(
             val amountSpent = binding.etSpentValue.text.toString().toDoubleOrNull()
 
             if (nameSpent.isNotBlank() && amountSpent != null && selectedCategory != null) {
-                val spent = SpentUiData(nameSpent, amountSpent, selectedCategory!!.icon)
+                val spent = SpentUiData(nameSpent, amountSpent, selectedCategory!!.icon, selectedCategory!!.color)
                 onSpentCreated(spent)
                 dismiss()
             } else {
