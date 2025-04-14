@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     private var realCategories: List<CategoryUiData> = emptyList()
     private lateinit var spentAdapter: SpentListAdapter
 
+    private lateinit var categoryAdapter: CategoryListAdapter
+
     private var selectedCategoryName: String? = null
 
 
@@ -60,11 +62,13 @@ class MainActivity : AppCompatActivity() {
                 add(plusCategory)
             }
 
-
-            val adapter = CategoryListAdapter(
+            categoryAdapter = CategoryListAdapter(
                 categoryUiList,
-                onCategorySelected = { category ->
-                    when (category.name) {
+                onCategorySelected = { selectedcategory ->
+                    val updateList = categoryUiList.map { it.copy(isSelected = it.name == selectedcategory.name ) }
+
+                    categoryAdapter.updateList(updateList)
+                    when (selectedcategory.name) {
                         "+" -> {}
                         "all" -> {
                             selectedCategoryName = null
@@ -72,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         else -> {
 //                            selectedCategoryName = category.name
-                            setupSpentList(category.icon)
+                            setupSpentList(selectedcategory.icon)
                         }
                     }
                 },
@@ -80,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     showCreateCategoryBottomSheet()
                 }
             )
-            binding.rvCategory.adapter = adapter
+            binding.rvCategory.adapter = categoryAdapter
         }
 
     }
