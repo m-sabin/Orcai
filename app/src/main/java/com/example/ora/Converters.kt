@@ -2,6 +2,7 @@ package com.example.ora
 
 fun CategoryUiData.toEntity(): CategoryEntity{
     return CategoryEntity(
+        id = this.id,
         name = this.name,
         icon = this.icon,
         color = this.color,
@@ -11,6 +12,7 @@ fun CategoryUiData.toEntity(): CategoryEntity{
 
 fun CategoryEntity.toUiData(): CategoryUiData{
     return CategoryUiData(
+        id = this.id,
         name = this.name,
         icon = this.icon,
         color = this.color,

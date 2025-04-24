@@ -1,6 +1,7 @@
 package com.example.ora
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ora.databinding.ActivityMainBinding
@@ -44,12 +45,14 @@ class MainActivity : AppCompatActivity() {
             }.filter { it.name != "+" && it.name != "all" }
 
             val allCategory = CategoryUiData(
+                id = 0,
                 name = "all",
                 icon = R.drawable.ic_filter,
                 color = R.color.cyan,
                 isSelected = true
             )
             val plusCategory = CategoryUiData(
+                id = 0,
                 name = "+",
                 icon = R.drawable.ic_add,
                 color = R.color.primary400,
@@ -65,7 +68,8 @@ class MainActivity : AppCompatActivity() {
             categoryAdapter = CategoryListAdapter(
                 categoryUiList,
                 onCategorySelected = { selectedcategory ->
-                    val updateList = categoryUiList.map { it.copy(isSelected = it.name == selectedcategory.name ) }
+                    val updateList =
+                        categoryUiList.map { it.copy(isSelected = it.name == selectedcategory.name) }
 
                     categoryAdapter.updateList(updateList)
                     when (selectedcategory.name) {
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                             selectedCategoryName = null
                             setupSpentList()
                         }
+
                         else -> {
 //                            selectedCategoryName = category.name
                             setupSpentList(selectedcategory.icon)
@@ -82,6 +87,16 @@ class MainActivity : AppCompatActivity() {
                 },
                 onAddCategoryClick = {
                     showCreateCategoryBottomSheet()
+                },
+                onCategoryLongClick = { category ->
+                    AlertDialog.Builder(this)
+                        .setTitle("Deletar Categoria")
+                        .setMessage("Tem certeza que deseja deletar a categoria \"${category.name}\"? Todas as despesas associadas a ela também serão apagadas.")
+                        .setPositiveButton("SIM") { _, _ ->
+                            deleteCategoryAndSpents(category)
+                        }
+                        .setNegativeButton ("CANCELAR", null)
+                        .show()
                 }
             )
             binding.rvCategory.adapter = categoryAdapter
@@ -93,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         val bottomSheet = CreateCategoryBottomSheet(
             onCategoryCreated = { name, icon, color ->
                 val category = CategoryUiData(
+                    id = 0,
                     name = name,
                     icon = icon,
                     color = color,
@@ -128,6 +144,13 @@ class MainActivity : AppCompatActivity() {
             spentViewModel.insert(newspent.toEntity())
         }
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
+
+    private fun deleteCategoryAndSpents(category: CategoryUiData){
+        spentViewModel.deleteByIcon(category.icon)
+
+        categoryViewModel.delete(category.toEntity())
+
     }
 }
 

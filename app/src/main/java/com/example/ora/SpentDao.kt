@@ -19,4 +19,7 @@ interface SpentDao {
     @Delete
    suspend fun deleteSpent(spent: SpentEntity)
 
+   @Query("DELETE FROM spent_table WHERE icon = :icon")
+   suspend fun deleteByIcon(icon: Int)
+
 }

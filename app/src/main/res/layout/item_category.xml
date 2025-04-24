@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/iv_category_icon"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:background="@drawable/filter_chips_background"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_item_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
-    android:scaleType="centerInside"
-    android:src="@drawable/ic_add"
     android:clickable="true"
-    android:focusable="true"/>
+    android:focusable="true"
+    android:background="@drawable/filter_chips_background">
 
-
+    <ImageView
+        android:id="@+id/iv_category_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_add"/>
+</FrameLayout>

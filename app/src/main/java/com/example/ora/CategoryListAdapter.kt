@@ -8,21 +8,31 @@ import com.example.ora.databinding.ItemCategoryBinding
 class  CategoryListAdapter(
     private var categories: List<CategoryUiData>,
     private val onCategorySelected: (CategoryUiData) -> Unit,
-    private val onAddCategoryClick: () -> Unit
+    private val onAddCategoryClick: () -> Unit,
+    private val onCategoryLongClick: (CategoryUiData) -> Unit
 ) : RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>(){
 
     inner class CategoryViewHolder (private val binding: ItemCategoryBinding):
     RecyclerView.ViewHolder(binding.root){
 
         fun bind (category: CategoryUiData){
-            binding.root.isSelected = category.isSelected
-            binding.ivCategoryIcon.setImageResource(category.icon)
+            with(binding) {
+                categoryItemRoot.isSelected = category.isSelected
+                ivCategoryIcon.setImageResource(category.icon)
 
-            binding.root.setOnClickListener {
-                if (category.name == "+"){
-                    onAddCategoryClick()
-                } else {
-                    onCategorySelected(category)
+                categoryItemRoot.setOnClickListener {
+                    if (category.name == "+"){
+                        onAddCategoryClick()
+                    } else {
+                        onCategorySelected(category)
+                    }
+                }
+
+                categoryItemRoot.setOnLongClickListener {
+                    if (category.name != "+" && category.name != "all"){
+                        onCategoryLongClick(category)
+                    }
+                    true
                 }
             }
         }
