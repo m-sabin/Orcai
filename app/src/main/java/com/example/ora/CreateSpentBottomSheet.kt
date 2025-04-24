@@ -52,7 +52,6 @@ class CreateSpentBottomSheet(
         binding.rvSpentIcon.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Atualizar o botao (Criar ou Atualizar)
         binding.btnCreateSpent.text = if (existingSpent != null) "Atualizar" else "Criar"
 
         binding.btnCreateSpent.setOnClickListener {
