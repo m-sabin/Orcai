@@ -46,9 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
             android:textColor="@color/primary400"
-            android:textSize="32sp"
+            android:textSize="42sp"
             android:textStyle="bold"
             tools:text="R$ 324.41" />
     </LinearLayout>

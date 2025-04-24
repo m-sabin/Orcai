@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         setupCategoryList()
         setupSpentList()
 
+        spentViewModel.totalSpent.observe(this) { total ->
+            binding.tvValueSpent.text = "R$ %.2f".format(total ?: 0.0)
+        }
 
 
         binding.btnAddSpent.setOnClickListener {

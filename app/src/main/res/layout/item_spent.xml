@@ -47,7 +47,7 @@
         android:id="@+id/viewColorIndicator"
         android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="110dp"
+        android:layout_marginStart="90dp"
         android:background="@drawable/bg_color_indicator"
         />
 
