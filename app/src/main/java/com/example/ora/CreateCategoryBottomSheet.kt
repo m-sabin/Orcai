@@ -10,13 +10,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
 class CreateCategoryBottomSheet(
-    private val  onCategoryCreated: (String, Int, Int) -> Unit
+    private val existingCategories: List<CategoryUiData> = emptyList(),
+    private val onCategoryCreated: (String, Int, Int) -> Unit
 
-): BottomSheetDialogFragment(){
+) : BottomSheetDialogFragment() {
 
     private var selectedIcon: Int? = null
-
     private var selectedColor: Int? = null
+
+    private lateinit var allIcons: List<Int>
+    private lateinit var allColors: List<Int>
 
     private lateinit var binding: CategoryBottomSheetBinding
 
@@ -30,23 +33,7 @@ class CreateCategoryBottomSheet(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupIconRecyclerView()
-        setupColorRecyclerView()
-
-        binding.btnCreatNewCategory.setOnClickListener {
-            val name = binding.etCategoryName.text.toString().trim()
-
-            if (name.isEmpty() || selectedIcon == null || selectedColor == null){
-                Snackbar.make(binding.root, "Preenche Todos Os Campos", Snackbar.LENGTH_SHORT).show()
-            } else {
-                onCategoryCreated(name, selectedIcon!!, selectedColor!!)
-                dismiss()
-            }
-        }
-    }
-
-    private fun setupIconRecyclerView(){
-        val iconList = listOf(
+        allIcons = listOf(
             R.drawable.ic_home,
             R.drawable.ic_key,
             R.drawable.ic_food,
@@ -58,41 +45,58 @@ class CreateCategoryBottomSheet(
             R.drawable.ic_streaming
         )
 
-        val adapter = IconAdapter(iconList){
-            selectedIcon = it
-        }
-        binding.rvIcons.adapter = adapter
-        binding.rvIcons.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-    }
+        val usedIcons = existingCategories.map { it.icon }
+        val availableIcons = allIcons.filterNot { it in usedIcons }
+        setupIconRecyclerView(availableIcons)
 
-    private fun setupColorRecyclerView(){
-        val context = requireContext()
-        val colorList = listOf(
-            context.getColor(R.color.category_red),
-            context.getColor(R.color.category_blue),
-            context.getColor(R.color.category_green),
-            context.getColor(R.color.category_orange),
-            context.getColor(R.color.category_purple),
-            context.getColor(R.color.category_yellow),
-            context.getColor(R.color.teal_200),
-            context.getColor(R.color.teal_700),
-            context.getColor(R.color.pink_200),
-            context.getColor(R.color.pink_500),
-            context.getColor(R.color.indigo),
-            context.getColor(R.color.cyan),
-            context.getColor(R.color.deep_orange),
-            context.getColor(R.color.lime),
-            context.getColor(R.color.amber),
-            context.getColor(R.color.grey_700)
+        allColors = listOf(
+            requireContext().getColor(R.color.category_red),
+            requireContext().getColor(R.color.category_blue),
+            requireContext().getColor(R.color.category_green),
+            requireContext().getColor(R.color.category_orange),
+            requireContext().getColor(R.color.category_purple),
+            requireContext().getColor(R.color.category_yellow),
+            requireContext().getColor(R.color.teal_200),
+            requireContext().getColor(R.color.teal_700),
+            requireContext().getColor(R.color.pink_200),
+            requireContext().getColor(R.color.pink_500),
+            requireContext().getColor(R.color.indigo),
+            requireContext().getColor(R.color.cyan),
+            requireContext().getColor(R.color.deep_orange),
+            requireContext().getColor(R.color.lime),
+            requireContext().getColor(R.color.amber),
+            requireContext().getColor(R.color.grey_700)
         )
 
-        val adapter = ColorAdapter(colorList){
-            selectedColor = it
+        val usedColors = existingCategories.map { it.color }
+        val availableColors = allColors.filterNot { it in usedColors }
+        setupColorRecyclerView(availableColors)
+
+        binding.btnCreatNewCategory.setOnClickListener {
+            val name = binding.etCategoryName.text.toString().trim()
+            if (name.isEmpty() || selectedIcon == null || selectedColor == null) {
+                Snackbar.make(binding.root, "Preenche todos os campos", Snackbar.LENGTH_SHORT).show()
+            } else {
+                onCategoryCreated(name, selectedIcon!!, selectedColor!!)
+                dismiss()
+            }
+        }
+    }
+
+    private fun setupIconRecyclerView(icons: List<Int>) {
+        val adapter = IconAdapter(icons) { icon ->
+            selectedIcon = icon
+        }
+        binding.rvIcons.adapter = adapter
+        binding.rvIcons.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun setupColorRecyclerView(colors: List<Int>) {
+        val adapter = ColorAdapter(colors) { color ->
+            selectedColor = color
         }
         binding.rvColors.adapter = adapter
-        binding.rvColors.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvColors.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
 }

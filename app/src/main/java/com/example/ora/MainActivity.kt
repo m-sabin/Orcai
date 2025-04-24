@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var spentViewModel: SpentViewModel
 
-    private val spentList = mutableListOf<SpentUiData>()
     private var realCategories: List<CategoryUiData> = emptyList()
     private lateinit var spentAdapter: SpentListAdapter
 
@@ -33,8 +32,10 @@ class MainActivity : AppCompatActivity() {
         setupCategoryList()
         setupSpentList()
 
+
+
         binding.btnAddSpent.setOnClickListener {
-            showCreateSpentBottomSheet()
+            showCreateOrUpdateSpentBottomSheet()
         }
     }
 
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 onAddCategoryClick = {
-                    showCreateCategoryBottomSheet()
+                    showCreateCategoryBottomSheet(realCategories)
                 },
                 onCategoryLongClick = { category ->
                     AlertDialog.Builder(this)
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                         .setPositiveButton("SIM") { _, _ ->
                             deleteCategoryAndSpents(category)
                         }
-                        .setNegativeButton ("CANCELAR", null)
+                        .setNegativeButton("CANCELAR", null)
                         .show()
                 }
             )
@@ -104,17 +105,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showCreateCategoryBottomSheet() {
+    private fun showCreateCategoryBottomSheet(existingSpent: List<CategoryUiData>) {
         val bottomSheet = CreateCategoryBottomSheet(
+            existingCategories = existingSpent,
             onCategoryCreated = { name, icon, color ->
-                val category = CategoryUiData(
+                val newcategory = CategoryUiData(
                     id = 0,
                     name = name,
                     icon = icon,
                     color = color,
                     isSelected = false
                 )
-                categoryViewModel.insert(category)
+                categoryViewModel.insert(newcategory)
             }
         )
         bottomSheet.show(supportFragmentManager, "NewCategoryBottomSheet")
@@ -131,22 +133,38 @@ class MainActivity : AppCompatActivity() {
             val spentUiList = filteredList.map {
                 it.toUiData()
             }
-            spentAdapter = SpentListAdapter(spentUiList) { spent ->
-                // ação do clique do gasto
-            }
+            spentAdapter = SpentListAdapter(
+                spentUiList,
+                onSpentClick = { spent ->
+                    showCreateOrUpdateSpentBottomSheet(spent)
+                }
+            )
             binding.rvSpent.layoutManager = LinearLayoutManager(this)
             binding.rvSpent.adapter = spentAdapter
         }
     }
 
-    private fun showCreateSpentBottomSheet() {
-        val bottomSheet = CreateSpentBottomSheet(realCategories) { newspent ->
-            spentViewModel.insert(newspent.toEntity())
-        }
+    private fun showCreateOrUpdateSpentBottomSheet(existingSpent: SpentUiData? = null) {
+        val bottomSheet = CreateSpentBottomSheet(
+            categories = realCategories,
+            existingSpent = existingSpent,
+            onSpentCreated = { newspent ->
+                if (existingSpent == null) {
+                    spentViewModel.insert(newspent.toEntity())
+
+                } else {
+                    spentViewModel.update(newspent.copy(id = existingSpent.id).toEntity())
+                }
+            },
+            onSpentDelete = {
+                existingSpent?.let { spentViewModel.delete(it.toEntity()) }
+            }
+        )
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    private fun deleteCategoryAndSpents(category: CategoryUiData){
+
+    private fun deleteCategoryAndSpents(category: CategoryUiData) {
         spentViewModel.deleteByIcon(category.icon)
 
         categoryViewModel.delete(category.toEntity())

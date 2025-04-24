@@ -9,7 +9,7 @@ import com.example.ora.databinding.ItemSpentBinding
 
 class SpentListAdapter  (
     private val expenses: List<SpentUiData>,
-    private val onSpentClick: (SpentEntity) -> Unit,
+    private val onSpentClick: (SpentUiData) -> Unit,
 ): RecyclerView.Adapter<SpentListAdapter.SpentViewHolder>(){
 
     inner class SpentViewHolder (private val binding: ItemSpentBinding):
@@ -20,7 +20,10 @@ class SpentListAdapter  (
             binding.tvCategoryName.text = spent.category
             binding.tvSpentValue.text = spent.amount.toString()
             binding.viewColorIndicator.setBackgroundColor(spent.color)
-            binding.root.setOnClickListener{onSpentClick}
+
+            binding.root.setOnClickListener{
+                onSpentClick(spent)
+            }
 
         }
 

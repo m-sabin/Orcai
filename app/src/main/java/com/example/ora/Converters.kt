@@ -22,6 +22,7 @@ fun CategoryEntity.toUiData(): CategoryUiData{
 
 fun SpentUiData.toEntity(): SpentEntity{
     return SpentEntity(
+        id = this.id,
         amount = this.amount,
         category = this.category,
         icon = this.icon,
@@ -31,6 +32,7 @@ fun SpentUiData.toEntity(): SpentEntity{
 
 fun SpentEntity.toUiData(): SpentUiData{
     return SpentUiData(
+        id = this.id,
         amount = this.amount,
         category = this.category,
         icon = this.icon,

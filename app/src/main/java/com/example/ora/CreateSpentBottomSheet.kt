@@ -1,17 +1,21 @@
 package com.example.ora
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Delete
 import com.example.ora.databinding.SpentBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
 class CreateSpentBottomSheet(
     private val categories: List<CategoryUiData>,
-    private val onSpentCreated: (SpentUiData) -> Unit
+    private val existingSpent: SpentUiData? = null,
+    private val onSpentCreated: (SpentUiData) -> Unit,
+    private val onSpentDelete: ((SpentUiData) -> Unit)? = null
 ) : BottomSheetDialogFragment() {
 
     private var selectedCategory: CategoryUiData? = null
@@ -34,11 +38,11 @@ class CreateSpentBottomSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-//        val dummyIcons = listOf(
-//            CategoryUiData("Casa", R.drawable.ic_home, R.color.cyan, false),
-//            CategoryUiData("Transporte", R.drawable.ic_car, R.color.lime, false),
-//            CategoryUiData("Mercado", R.drawable.ic_shopping, R.color.lime, false)
-//        )
+        existingSpent?.let { spent ->
+            binding.etSpentName.setText(spent.category)
+            binding.etSpentValue.setText(spent.amount.toString())
+            selectedCategory = categories.find { it.icon == spent.icon }
+        }
 
         adapter = IconOfSpentAdapter(categories) { category ->
             selectedCategory = category
@@ -48,18 +52,44 @@ class CreateSpentBottomSheet(
         binding.rvSpentIcon.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        // Atualizar o botao (Criar ou Atualizar)
+        binding.btnCreateSpent.text = if (existingSpent != null) "Atualizar" else "Criar"
+
         binding.btnCreateSpent.setOnClickListener {
             val nameSpent = binding.etSpentName.text.toString().trim()
             val amountSpent = binding.etSpentValue.text.toString().toDoubleOrNull()
 
             if (nameSpent.isNotBlank() && amountSpent != null && selectedCategory != null) {
-                val spent = SpentUiData(nameSpent, amountSpent, selectedCategory!!.icon, selectedCategory!!.color)
+                val spent = SpentUiData(
+                    id = existingSpent?.id ?: 0,
+                    category = nameSpent,
+                    amount = amountSpent,
+                    icon = selectedCategory!!.icon,
+                    color = selectedCategory!!.color
+                )
                 onSpentCreated(spent)
                 dismiss()
             } else {
                 Snackbar.make(binding.root, "Preenche Todos Os Campos", Snackbar.LENGTH_SHORT)
                     .show()
             }
+        }
+
+        if (existingSpent != null) {
+            binding.btnDeleteSpent.visibility = View.VISIBLE
+            binding.btnDeleteSpent.setOnClickListener {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Deletar despesa")
+                    .setMessage("Tem certeza que deseja deletar essa despesa?")
+                    .setPositiveButton("SIM") { _, _ ->
+                        onSpentDelete?.invoke(existingSpent)
+                        dismiss()
+                    }
+                    .setNegativeButton("CANCELAR", null)
+                    .show()
+            }
+        } else {
+            binding.btnDeleteSpent.visibility = View.GONE
         }
     }
 

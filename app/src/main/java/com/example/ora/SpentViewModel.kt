@@ -22,6 +22,12 @@ class SpentViewModel(private val spentDao: SpentDao) : ViewModel() {
         }
     }
 
+    fun update(spent: SpentEntity) {
+        viewModelScope.launch {
+            spentDao.updateSpent(spent)
+        }
+    }
+
     fun deleteByIcon(icon: Int){
         viewModelScope.launch {
             spentDao.deleteByIcon(icon)

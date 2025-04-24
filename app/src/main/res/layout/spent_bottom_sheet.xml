@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_expense"
-        android:text="Adicionar despesas"
+        android:text="Criar despesas"
         android:drawablePadding="5dp"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -49,14 +49,38 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:id="@+id/btnCreateSpent"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:id="@+id/ctn_BotaoCreateOrUpdate"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/primary400"
-        android:text="Adicionar"
-        android:textSize="18sp"/>
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnCreateSpent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/primary400"
+            android:textColorHint="@color/white"
+            android:text="Criar"
+            android:layout_marginEnd="4dp"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_delete_spent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Deletar"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="gone"
+            android:layout_marginStart="4dp"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

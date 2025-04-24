@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface SpentDao {
@@ -18,6 +19,9 @@ interface SpentDao {
 
     @Delete
    suspend fun deleteSpent(spent: SpentEntity)
+
+   @Update
+   suspend fun updateSpent(spent: SpentEntity)
 
    @Query("DELETE FROM spent_table WHERE icon = :icon")
    suspend fun deleteByIcon(icon: Int)
