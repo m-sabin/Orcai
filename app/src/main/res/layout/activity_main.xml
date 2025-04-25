@@ -96,27 +96,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_download"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_download"
-            app:layout_constraintBottom_toBottomOf="@id/tv_title_rv_spent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_title_rv_spent" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_download"-->
+        <!--            android:layout_width="42dp"-->
+        <!--            android:layout_height="42dp"-->
+        <!--            android:layout_marginStart="8dp"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:src="@drawable/ic_download"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@id/tv_title_rv_spent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/tv_title_rv_spent" />-->
 
-        <ImageView
-            android:id="@+id/iv_filter_expenses"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="-8dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_filter_expenses"
-            app:layout_constraintBottom_toBottomOf="@id/iv_download"
-            app:layout_constraintEnd_toStartOf="@id/iv_download"
-            app:layout_constraintTop_toTopOf="@id/iv_download" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_filter_expenses"-->
+        <!--            android:layout_width="42dp"-->
+        <!--            android:layout_height="42dp"-->
+        <!--            android:layout_marginEnd="-8dp"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:src="@drawable/ic_filter_expenses"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@id/iv_download"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/iv_download"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/iv_download" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,6 +143,46 @@
             app:layout_constraintStart_toStartOf="@+id/rv_category"
             app:layout_constraintTop_toBottomOf="@+id/rv_category"
             tools:listitem="@layout/item_category" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não tem nenhuma categoria ainda"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Cria uma categoria para começar"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_empty_view" />
+
+        <Button
+            android:id="@+id/btn_create_empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/primary400"
+            android:text="Criar" />
 
     </LinearLayout>
 

@@ -1,10 +1,25 @@
 package com.example.ora
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ora.databinding.ActivityMainBinding
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -36,17 +51,41 @@ class MainActivity : AppCompatActivity() {
             binding.tvValueSpent.text = "R$ %.2f".format(total ?: 0.0)
         }
 
+        binding.btnCreateEmptyView.setOnClickListener {
+            showCreateCategoryBottomSheet(realCategories)
+            setupCategoryList()
+        }
 
         binding.btnAddSpent.setOnClickListener {
             showCreateOrUpdateSpentBottomSheet()
         }
+
     }
 
     private fun setupCategoryList() {
+
         categoryViewModel.allCategories.observe(this) { categories ->
             realCategories = categories.map {
                 it.toUiData()
             }.filter { it.name != "+" && it.name != "all" }
+
+            if (realCategories.isEmpty()){
+                binding.llSpentTotal.isVisible = false
+                binding.tvTitleRvCategory.isVisible = false
+                binding.rvCategory.isVisible = false
+                binding.ctnTitleFilterDownload.isVisible = false
+                binding.llEmptyView.isVisible = true
+                binding.llExpensesDetails.isVisible = false
+                binding.btnAddSpent.isVisible = false
+            } else {
+                binding.llSpentTotal.isVisible = true
+                binding.tvTitleRvCategory.isVisible = true
+                binding.rvCategory.isVisible = true
+                binding.ctnTitleFilterDownload.isVisible = true
+                binding.llEmptyView.isVisible = false
+                binding.llExpensesDetails.isVisible = true
+                binding.btnAddSpent.isVisible = true
+            }
 
             val allCategory = CategoryUiData(
                 id = 0,
@@ -84,7 +123,6 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         else -> {
-//                            selectedCategoryName = category.name
                             setupSpentList(selectedcategory.icon)
                         }
                     }
@@ -173,5 +211,6 @@ class MainActivity : AppCompatActivity() {
         categoryViewModel.delete(category.toEntity())
 
     }
+
 }
 
